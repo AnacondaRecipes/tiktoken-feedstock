@@ -6,28 +6,25 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tiktoken-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 27e773564232004f4f810fd1f85236673ec3a56ed7f1206fc9ed8670ebedb97a
 
 build:
+  number: 0
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - {{ PYTHON }} -m pip install . -vv
-  number: 0
+    - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - {{ compiler('cxx') }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
     - python
-    - setuptools >=62.4
-    - wheel
-    - setuptools-rust >=1.5.2
     - pip
+    - setuptools
+    - setuptools-rust
+    - wheel
   run:
     - python
     - regex >=2022.1.18
@@ -37,15 +34,25 @@ test:
   imports:
     - tiktoken
     - tiktoken_ext
-  commands:
-    - pip check
+  source_files:
+    - tests/
   requires:
     - pip
+    - pytest
+    - hypothesis
+  commands:
+    - pip check
+    - python -c 'import tiktoken; enc = tiktoken.get_encoding("gpt2"); assert enc.encode("hello world") == [31373, 995]'
+    - pytest tests --import-mode=append -vv
 
 about:
   home: https://github.com/openai/tiktoken
+  dev_url: https://github.com/openai/tiktoken
+  doc_url: https://github.com/openai/tiktoken
   summary: tiktoken is a fast BPE tokeniser for use with OpenAI's models
+  description: tiktoken is a fast BPE tokeniser for use with OpenAI's models.
   license: MIT
+  license_family: MIT
   license_file:
     - LICENSE
     - THIRDPARTY.yml
