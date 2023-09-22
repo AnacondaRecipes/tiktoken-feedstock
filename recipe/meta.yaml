@@ -46,7 +46,7 @@ test:
     - hypothesis
   commands:
     - pip check
-    - python -c 'import tiktoken; enc = tiktoken.get_encoding("gpt2"); assert enc.encode("hello world") == [31373, 995]'
+    - python -c "import tiktoken; enc = tiktoken.get_encoding('gpt2'); assert enc.encode('hello world') == [31373, 995]"
     - pytest tests --import-mode=append -vv
 
 about:
