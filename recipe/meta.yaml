@@ -61,5 +61,9 @@ about:
     - THIRDPARTY.yml
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for pyautogen
   recipe-maintainers:
+    - ianaobi
     - BastianZim
