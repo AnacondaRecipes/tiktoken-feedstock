@@ -57,9 +57,11 @@ about:
 extra:
   anaconda-services:
     ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for pyautogen
     reason: Dependency for litellm
   recipe-maintainers:
     - ianaobi
     - bkreider
   recipe-maintainers:
+    - ianaobi
     - BastianZim
