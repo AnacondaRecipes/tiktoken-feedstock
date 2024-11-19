@@ -60,5 +60,6 @@ extra:
     reason: Dependency for litellm
   recipe-maintainers:
     - ianaobi
+    - bkreider
   recipe-maintainers:
     - BastianZim
