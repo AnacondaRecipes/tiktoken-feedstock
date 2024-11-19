@@ -17,10 +17,11 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    #- python                                 # [build_platform != target_platform]
+    - python           
+#    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - {{ compiler('cxx') }}
-    - {{ stdlib("c") }}
+#    - {{ stdlib("c") }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
@@ -50,6 +51,8 @@ about:
   license_file:
     - LICENSE
     - THIRDPARTY.yml
+  dev_url: https://github.com/openai/tiktoken
+  doc_url: https://github.com/openai/tiktoken/blob/main/README.md
 
 extra:
   anaconda-services:
@@ -58,7 +61,7 @@ extra:
     reason: Dependency for litellm
   recipe-maintainers:
     - ianaobi
-
+    - bkreider
   recipe-maintainers:
     - ianaobi
     - BastianZim
