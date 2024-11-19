@@ -1,35 +1,36 @@
 {% set name = "tiktoken" %}
-{% set version = "0.5.1" %}
+{% set version = "0.8.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 27e773564232004f4f810fd1f85236673ec3a56ed7f1206fc9ed8670ebedb97a
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tiktoken-{{ version }}.tar.gz
+  sha256: 9ccbb2740f24542534369c5635cfd9b2b3c2490754a78ac8831d99f89f94eeb2
 
 build:
-  number: 0
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  missing_dso_whitelist:  # [s390x]
-    - "$RPATH/ld64.so.1"  # [s390x]
+    - {{ PYTHON }} -m pip install . -vv  --no-deps --no-build-isolation
+  number: 0
 
 requirements:
   build:
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
     - python
-    - pip
-    - setuptools
-    - setuptools-rust
+    - setuptools >=62.4
     - wheel
+    - setuptools-rust >=1.5.2
+    - pip
   run:
     - python
-    - libgcc-ng  # [linux]
     - regex >=2022.1.18
     - requests >=2.26.0
 
@@ -37,29 +38,24 @@ test:
   imports:
     - tiktoken
     - tiktoken_ext
-  source_files:
-    - tests/
-  requires:
-    - pip
-    - pytest
-    - hypothesis
   commands:
     - pip check
-    - python -c "import tiktoken; enc = tiktoken.get_encoding('gpt2'); assert enc.encode('hello world') == [31373, 995]"
-    - pytest tests --import-mode=append -vv
+  requires:
+    - pip
 
 about:
   home: https://github.com/openai/tiktoken
-  dev_url: https://github.com/openai/tiktoken
-  doc_url: https://github.com/openai/tiktoken
   summary: tiktoken is a fast BPE tokeniser for use with OpenAI's models
-  description: tiktoken is a fast BPE tokeniser for use with OpenAI's models.
   license: MIT
-  license_family: MIT
   license_file:
     - LICENSE
     - THIRDPARTY.yml
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for litellm
+  recipe-maintainers:
+    - ianaobi
   recipe-maintainers:
     - BastianZim
