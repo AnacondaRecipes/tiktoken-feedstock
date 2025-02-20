@@ -1,5 +1,5 @@
 {% set name = "tiktoken" %}
-{% set version = "0.8.0" %}
+{% set version = "0.7.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,21 +7,20 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tiktoken-{{ version }}.tar.gz
-  sha256: 9ccbb2740f24542534369c5635cfd9b2b3c2490754a78ac8831d99f89f94eeb2
+  sha256: 1077266e949c24e0291f6c350433c6f0971365ece2b173a23bc3b9f9defef6b6
 
 build:
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - {{ PYTHON }} -m pip install . -vv  --no-deps --no-build-isolation
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   build:
-    #- python                                 # [build_platform != target_platform]
-    - python           
-#    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - python                                 # [build_platform != target_platform]
+    #- cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - {{ compiler('cxx') }}
-#    - {{ stdlib("c") }}
+    #- {{ stdlib("c") }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
@@ -50,16 +49,13 @@ about:
   license: MIT
   license_file:
     - LICENSE
-    - THIRDPARTY.yml
-  dev_url: https://github.com/openai/tiktoken
-  doc_url: https://github.com/openai/tiktoken/blob/main/README.md
+    #- THIRDPARTY.yml
 
 extra:
   anaconda-services:
     ref: https://anaconda.zendesk.com/agent/tickets/49522
-    reason: Dependency for litellm
+    reason: Dependency for vllm
   recipe-maintainers:
     - ianaobi
-    - bkreider
   recipe-maintainers:
     - BastianZim
