@@ -1,5 +1,5 @@
 {% set name = "tiktoken" %}
-{% set version = "0.5.1" %}
+{% set version = "0.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 27e773564232004f4f810fd1f85236673ec3a56ed7f1206fc9ed8670ebedb97a
+  sha256: d02a5ca6a938e0490e1ff957bc48c8b078c88cb83977be1625b1fd8aac792c5d
 
 build:
-  number: 1
+  number: 0
+  skip: True  # [py<39]
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
@@ -23,13 +24,12 @@ requirements:
     - cargo-bundle-licenses
   host:
     - python
-    - pip
-    - setuptools
-    - setuptools-rust
     - wheel
+    - setuptools >=62.4
+    - setuptools-rust >=1.5.2
+    - pip
   run:
     - python
-    - libgcc-ng  # [linux]
     - regex >=2022.1.18
     - requests >=2.26.0
 
