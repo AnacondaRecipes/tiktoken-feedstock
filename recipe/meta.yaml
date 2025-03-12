@@ -33,6 +33,8 @@ requirements:
     - libgcc-ng  # [linux]
     - regex >=2022.1.18
     - requests >=2.26.0
+  run_constrained:
+    - blobfile >=2
 
 test:
   imports:
@@ -52,7 +54,7 @@ test:
 about:
   home: https://github.com/openai/tiktoken
   dev_url: https://github.com/openai/tiktoken
-  doc_url: https://github.com/openai/tiktoken
+  doc_url: https://github.com/openai/tiktoken/blob/main/README.md
   summary: tiktoken is a fast BPE tokeniser for use with OpenAI's models
   description: tiktoken is a fast BPE tokeniser for use with OpenAI's models.
   license: MIT
