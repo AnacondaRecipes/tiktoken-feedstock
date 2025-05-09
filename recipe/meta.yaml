@@ -10,13 +10,11 @@ source:
   sha256: d02a5ca6a938e0490e1ff957bc48c8b078c88cb83977be1625b1fd8aac792c5d
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<39]
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  missing_dso_whitelist:  # [s390x]
-    - "$RPATH/ld64.so.1"  # [s390x]
 
 requirements:
   build:
