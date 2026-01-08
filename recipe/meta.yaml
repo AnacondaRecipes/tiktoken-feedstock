@@ -18,6 +18,8 @@ build:
 
 requirements:
   build:
+    - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
@@ -28,7 +30,7 @@ requirements:
     - pip
   run:
     - python
-    - libgcc-ng  # [linux]
+    # - libgcc-ng  # [linux]
     - regex >=2022.1.18
     - requests >=2.26.0
   run_constrained:
