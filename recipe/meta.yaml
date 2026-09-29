@@ -2,7 +2,7 @@
 {% set version = "0.14.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -19,7 +19,7 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
-    - {{ stdlib("c") }}
+    - {{ stdlib('c') }}
     - {{ compiler('rust') }}
     - cargo-bundle-licenses
   host:
